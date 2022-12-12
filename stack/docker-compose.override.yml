@@ -1,0 +1,22 @@
+version: "3.5"
+
+##### service definitions #####
+services:
+  ### Worker PHP-FPM and NGINX ###
+  #PHP-FPM Service 
+  app:
+    build:
+      context: ../
+      dockerfile: ./stack/app/Dockerfile
+    ports: 
+      - 9010:9000
+    volumes:
+      - ../backend:/var/www/html
+
+  #Nginx
+  nginx:
+    ports:
+      - "9011:80"
+      - "9411:443"
+    volumes:
+      - ../backend:/var/www/html

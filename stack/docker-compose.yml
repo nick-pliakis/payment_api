@@ -1,0 +1,42 @@
+version: "3.5"
+
+##### service definitions #####
+services:
+  ### Worker PHP-FPM and NGINX ###
+  #PHP-FPM Service 
+  app:
+    container_name: app
+    restart: unless-stopped
+    networks:
+      - app-network
+
+  #Nginx
+  nginx:
+    build:
+      context: ../
+      dockerfile: ./stack/nginx/Dockerfile
+    container_name: nginx
+    depends_on: 
+      - app
+    restart: unless-stopped
+    links: 
+      - app
+    networks:
+      - app-network
+
+  mysqldb:
+    image: mysql:8.0
+    container_name: mysqldb
+    restart: unless-stopped
+    environment:
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+    ports:
+      - 33065:3306
+    networks:
+      - app-network
+
+##### Network definitions #####
+networks:
+  app-network:
+    name: app-network
+    driver: bridge
