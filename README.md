@@ -30,6 +30,10 @@ With a JSON body with the following format:
 	}
 }
 ```
+For authenticating the request, the Bearer header should be present as well:
+```
+`Bearer: {{ JWT token }}
+```
 A basic authentication of the request has been implemented with JWT. Please note that, as this project only models the payment process, a register/login flow has not been implemented. Default JWT tokens can be provided if required.
 
 ## Installation instructions
